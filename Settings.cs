@@ -32,7 +32,6 @@ namespace AltarHelper
         public RangeNode<int> MinionWeight { get; set; } = new RangeNode<int>(0, 0, 100);
         [Menu("Bosss Weight", "Add this value to boss mod Type")]
         public RangeNode<int> BossWeight { get; set; } = new RangeNode<int>(0, 0, 100);
-        public HotkeyNode HotkeyMode { get; set; } = new HotkeyNode(Keys.F7);
     }
     [Submenu]
     [SupportedOSPlatform("windows")]

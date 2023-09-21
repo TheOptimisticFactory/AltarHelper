@@ -1,4 +1,4 @@
-using ExileCore;
+﻿using ExileCore;
 using ExileCore.PoEMemory.Elements;
 using ExileCore.Shared.Cache;
 using SharpDX;
@@ -117,25 +117,6 @@ namespace AltarHelper
         {
             RectangleDrawingList.Clear();
             TextDrawingList.Clear();
-
-            //Mode switching
-            if (Settings.AltarSettings.HotkeyMode.PressedOnce())
-            {
-                Settings.AltarSettings.SwitchMode.Value += 1;
-                if (Settings.AltarSettings.SwitchMode.Value == 4) Settings.AltarSettings.SwitchMode.Value = 1;
-                switch (Settings.AltarSettings.SwitchMode.Value)
-                {
-                    case 1:
-                        DebugWindow.LogMsg("AltarHelper: Changed to Any Choice");
-                        break;
-                    case 2:
-                        DebugWindow.LogMsg("AltarHelper: Changed to only Minions and Player Choices");
-                        break;
-                    case 3:
-                        DebugWindow.LogMsg("AltarHelper: Changed to only bosses and Players Choices");
-                        break;
-                }
-            }
 
             if (!CanRun()) return null;
 
