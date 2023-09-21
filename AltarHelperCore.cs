@@ -1,4 +1,4 @@
-﻿using ExileCore;
+using ExileCore;
 using ExileCore.PoEMemory.Elements;
 using ExileCore.Shared.Cache;
 using SharpDX;
@@ -303,7 +303,20 @@ namespace AltarHelper
                
 
                 if (Settings.DebugSettings.DebugBuffs) DebugWindow.LogMsg(upside);
-                FilterEntry filterentry = FilterList.FirstOrDefault(element => element.Mod.Contains(upside));
+                FilterEntry filterentry = FilterList.FirstOrDefault(x => { 
+                    if (x.Mod.Contains(upside)) { 
+                        return true; 
+                    } 
+ 
+                    Regex reg = new Regex(x.Mod); 
+                    Match match = reg.Match(upside); 
+ 
+                    if (match.Success) { 
+                        return true; 
+                    } 
+ 
+                    return false; 
+                }); 
                 if (filterentry == null) continue;
 
                 UpsideFilterEntryMatches.Add(filterentry);
