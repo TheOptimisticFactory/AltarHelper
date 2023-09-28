@@ -1,4 +1,4 @@
-﻿using ExileCore;
+using ExileCore;
 using ExileCore.PoEMemory.Elements;
 using ExileCore.Shared.Cache;
 using SharpDX;
@@ -307,7 +307,20 @@ namespace AltarHelper
             foreach (string entry in downsides)
             {
                 if (Settings.DebugSettings.DebugDebuffs) DebugWindow.LogMsg(entry);
-                FilterEntry filterentry = FilterList.FirstOrDefault(element => element.Mod.Contains(entry));
+                FilterEntry filterentry = FilterList.FirstOrDefault(x => {  
+                    if (x.Mod.Contains(entry)) {  
+                        return true;  
+                    }  
+  
+                    Regex reg = new Regex(x.Mod);  
+                    Match match = reg.Match(entry);  
+  
+                    if (match.Success) {  
+                        return true;  
+                    } 
+  
+                    return false;  
+                });
                 if (filterentry == null) continue;
 
                 DownsideFilterEntryMatches.Add(filterentry);
