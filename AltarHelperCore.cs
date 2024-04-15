@@ -193,17 +193,19 @@ namespace AltarHelper
                     //  DebugWindow.LogError($"UpperWeight: {UpperWeight} | DownerWeight: {DownerWeight}");
                 }
 
-                if (topOptionWeight < 0 || bottomOptionWeight < 0)
+                if (topOptionWeight < 0)
                 {
-                    if (topOptionWeight < 0) RectangleDrawingList.Add(new(topOptionLabel.GetClientRectCache, Settings.AltarSettings.BadColor, Settings.AltarSettings.FrameThickness));
-                    if (bottomOptionWeight < 0) RectangleDrawingList.Add(new(bottomOptionLabel.GetClientRectCache, Settings.AltarSettings.BadColor, Settings.AltarSettings.FrameThickness));
+                    RectangleDrawingList.Add(new(topOptionLabel.GetClientRectCache, Settings.AltarSettings.BadColor, Settings.AltarSettings.FrameThickness));
+                } else if (topOptionWeight >= bottomOptionWeight) {
+                    RectangleDrawingList.Add(new(topOptionLabel.GetClientRectCache, GetColor(altar.Top.Target), Settings.AltarSettings.FrameThickness));
                 }
 
-                if (topOptionWeight >= 0 || bottomOptionWeight >= 0)
+                if (bottomOptionWeight < 0)
                 {
-                    if (topOptionWeight >= bottomOptionWeight && topOptionWeight > 0) RectangleDrawingList.Add(new(topOptionLabel.GetClientRectCache, GetColor(altar.Top.Target), Settings.AltarSettings.FrameThickness));
-                    if (bottomOptionWeight > topOptionWeight && bottomOptionWeight > 0) RectangleDrawingList.Add(new(bottomOptionLabel.GetClientRectCache, GetColor(altar.Bottom.Target), Settings.AltarSettings.FrameThickness));
-                    continue;
+                    RectangleDrawingList.Add(new(bottomOptionLabel.GetClientRectCache, Settings.AltarSettings.BadColor, Settings.AltarSettings.FrameThickness));
+                } else if (bottomOptionWeight > topOptionWeight)
+                {
+                    RectangleDrawingList.Add(new(bottomOptionLabel.GetClientRectCache, GetColor(altar.Bottom.Target), Settings.AltarSettings.FrameThickness));
                 }
             }
         }
@@ -244,10 +246,10 @@ namespace AltarHelper
 
                 string line;
                 bool upsideSectionReached = false;
-                
+
                 while ((line = stringreader.ReadLine()) != null)
                 {
-                   
+
                     if (line.StartsWith("<enchanted>"))
                     {
                         upsideSectionReached = true;
@@ -279,25 +281,25 @@ namespace AltarHelper
 
             foreach (string entry in upsides)
             {
-               
+
                 var upside = Regex.Replace(entry, @"((\d+)(?:.\d)|\d+)", "#");
-               
+
 
                 if (Settings.DebugSettings.DebugBuffs) DebugWindow.LogMsg(upside);
-                FilterEntry filterentry = FilterList.FirstOrDefault(x => { 
-                    if (x.Mod.Contains(upside)) { 
-                        return true; 
-                    } 
- 
-                    Regex reg = new Regex(x.Mod); 
-                    Match match = reg.Match(upside); 
- 
-                    if (match.Success) { 
-                        return true; 
-                    } 
- 
-                    return false; 
-                }); 
+                FilterEntry filterentry = FilterList.FirstOrDefault(x => {
+                    if (x.Mod.Contains(upside)) {
+                        return true;
+                    }
+
+                    Regex reg = new Regex(x.Mod);
+                    Match match = reg.Match(upside);
+
+                    if (match.Success) {
+                        return true;
+                    }
+
+                    return false;
+                });
                 if (filterentry == null) continue;
 
                 UpsideFilterEntryMatches.Add(filterentry);
@@ -307,19 +309,19 @@ namespace AltarHelper
             foreach (string entry in downsides)
             {
                 if (Settings.DebugSettings.DebugDebuffs) DebugWindow.LogMsg(entry);
-                FilterEntry filterentry = FilterList.FirstOrDefault(x => {  
-                    if (x.Mod.Contains(entry)) {  
-                        return true;  
-                    }  
-  
-                    Regex reg = new Regex(x.Mod);  
-                    Match match = reg.Match(entry);  
-  
-                    if (match.Success) {  
-                        return true;  
-                    } 
-  
-                    return false;  
+                FilterEntry filterentry = FilterList.FirstOrDefault(x => {
+                    if (x.Mod.Contains(entry)) {
+                        return true;
+                    }
+
+                    Regex reg = new Regex(x.Mod);
+                    Match match = reg.Match(entry);
+
+                    if (match.Success) {
+                        return true;
+                    }
+
+                    return false;
                 });
                 if (filterentry == null) continue;
 
